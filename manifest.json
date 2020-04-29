@@ -1,0 +1,38 @@
+{
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "name": "BetterYTL - Improve live chat",
+  "version": "1.0",
+  "manifest_version": 2,
+  "background": {
+    "scripts":["background.js"]
+  },
+  "web_accessible_resources": ["inject.css", "inject.js","emotes.js", "modules/*"],
+  "content_scripts": [
+    {
+			"matches": [
+				"*://www.youtube.com/live_chat*",
+				"*://studio.youtube.com/channel/*/livestreaming/dashboard?*"
+			],
+
+			"all_frames": true,
+      "js": ["content.js"]
+    },
+    {
+			"matches": [
+				"*://www.youtube.com/watch?v=*"
+			],
+			"all_frames": true,
+      "js": ["content.js"],
+      "css": ["inject.css"]
+    }
+  ],
+
+	"permissions": [
+		"tabs",
+		"webNavigation",
+		"storage",
+
+		"*://www.youtube.com/live_chat*",
+		"*://studio.youtube.com/channel/*/livestreaming/dashboard?*"
+	]
+}
