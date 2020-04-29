@@ -1,6 +1,19 @@
 // Twitch + bttv + ffz emotes
 import emotes from '../emotes.js';
 
+var stringToColour = function (str) {
+    var hash = 0;
+    for(var i = 0; i < str.length; i++){
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    var colour = '#';
+    for(var i = 0; i < 3; i++){
+        var value = (hash >> (i * 8)) & 0xFF;
+        colour += ('00' + value.toString(16)).substr(-2);
+    }
+    return colour;
+};
+
 export default class ChatModule {
     chatNodes = new Map();
     async start(){
@@ -31,7 +44,7 @@ export default class ChatModule {
 
             // Preloaded messages
             Array.from(messages.querySelectorAll('yt-live-chat-text-message-renderer')).forEach((node) => {
-                if(node) this.onChatMessage(node, true);
+                //if(node) this.onChatMessage(node, true);
             });
         }else{
             console.log('BetterYTL: Chat magic already done')
@@ -45,19 +58,26 @@ export default class ChatModule {
     }
     onChatMessage = (entry, needsObserving) => {
         // Get the actual text of the message
-        let textNode = entry.querySelector('#content #message');
+        var textNode = entry.querySelector('#content #message');
         // If this is not a text node
         if(!textNode || !textNode.innerText) return;
 
         // Get the auhtor of the message
-        let authorName = entry.querySelector('#author-name');
+        var authorName = entry.querySelector('#author-name');
+        var authorColor = stringToColour(authorName.textContent.trim());
+        var authorType = entry.getAttribute('author-type');
+        if(authorType !== 'owner'){ 
+            setTimeout(() => {
+                authorName.style.color = authorColor;
+            }, 1);
+            console.log(authorName, authorName.textContent.trim(), authorColor);
+        }
     
         var innerHtml = ' ' + textNode.innerHTML.replace('﻿', '').replace('​', '') + ' ';
 
         var wordsArray = innerHtml.split(' ');
         wordsArray.forEach((word, i) => {
             var emote = emotes[word];
-            console.log(emotes, word);
             if(emote !== undefined){
                 var imgHtml = `<img
                 class="ytl-emote emoji style-scope yt-live-chat-text-message-renderer"
@@ -77,7 +97,7 @@ export default class ChatModule {
         if(needsObserving){
             var observer = new MutationObserver(function (mutations) {
                 mutations.forEach(function(mutation) {
-                    console.log(textNode.innerHTML, innerHtml);
+                    //console.log(textNode.innerHTML, innerHtml);
                     if(textNode.innerHTML != innerHtml) {
                         textNode.innerHTML = innerHtml;
                     }
@@ -104,7 +124,7 @@ export default class ChatModule {
                             'yt-live-chat-legacy-paid-message-renderer',
                         ];
                         if(tags.includes(node.tagName.toLowerCase())){
-                            this.onChatMessage(node, true);
+                            //this.onChatMessage(node, true);
                         }
                     }
                 }
