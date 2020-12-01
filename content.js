@@ -7,7 +7,7 @@ script.async = 'async';
 script.type = 'module';
 
 // The idea of this is to run the script after app.js is loaded, but before the page-specific scripts are loaded
-let appScript = document.body.querySelector('script[src*="live_chat_polymer_v2.js"]');
+let appScript = document.body.querySelector('script[src*="live_chat_polymer_v2.js"]') || document.body.querySelector('script[src*="live_chat_polymer.js"]');
 console.log('yeh boi', appScript);
 if(appScript){
     appScript.parentNode.insertBefore(script, appScript.nextSibling);

@@ -1,16 +1,29 @@
-ytd-watch-flexy {
-    --ytd-watch-flexy-sidebar-width: 370px!important;
+html body ytd-watch-flexy {
+    --ytd-watch-flexy-sidebar-width: 370px !important;
 }
 
-ytd-watch-flexy:not([theater]):not([fullscreen]) #primary.ytd-watch-flexy,
-ytd-watch-flexy:not([theater]):not([fullscreen]) #secondary.ytd-watch-flexy {
-    padding-top: 0!important;
+html body ytd-watch-flexy:not([theater]):not([fullscreen]) #primary.ytd-watch-flexy,
+html body ytd-watch-flexy:not([theater]):not([fullscreen]) #secondary.ytd-watch-flexy {
+    padding-top: 0 !important;
 }
 
-ytd-watch-flexy[flexy_] #secondary.ytd-watch-flexy {
-    min-width: 350px!important;
+html body ytd-watch-flexy[flexy_] #secondary.ytd-watch-flexy {
+    min-width: 350px !important;
 }
 
-ytd-watch-flexy[flexy_] #chat.ytd-watch-flexy:not([collapsed]).ytd-watch-flexy {
-    min-height: calc(100vh - 55px)!important;
+html body ytd-watch-flexy[flexy_] #chat.ytd-watch-flexy:not([collapsed]).ytd-watch-flexy {
+    min-height: calc(100vh - 55px) !important;
+}
+
+yt-live-chat-item-list-renderer[allow-scroll] #item-scroller.yt-live-chat-item-list-renderer {
+    overflow-y: hidden !important;
+}
+
+yt-live-chat-item-list-renderer[allow-scroll] #item-scroller.yt-live-chat-item-list-renderer:hover {
+    overflow-y: scroll !important;
+    margin-right: -15px !important;
+}
+
+yt-live-chat-message-input-renderer {
+    padding: 9px !important;
 }

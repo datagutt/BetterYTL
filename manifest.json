@@ -19,6 +19,13 @@
     },
     {
 			"matches": [
+				"*://www.youtube.com/*"
+			],
+			"all_frames": true,
+      "css": ["inject.css"]
+    },
+    {
+			"matches": [
 				"*://www.youtube.com/watch?v=*"
 			],
 			"all_frames": true,
