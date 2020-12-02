@@ -1,3 +1,4 @@
+/* Full height chat */
 html body ytd-watch-flexy {
     --ytd-watch-flexy-sidebar-width: 370px !important;
 }
@@ -15,6 +16,7 @@ html body ytd-watch-flexy[flexy_] #chat.ytd-watch-flexy:not([collapsed]).ytd-wat
     min-height: calc(100vh - 55px) !important;
 }
 
+/* Scrolling and input stuff */
 yt-live-chat-item-list-renderer[allow-scroll] #item-scroller.yt-live-chat-item-list-renderer {
     overflow-y: hidden !important;
 }
@@ -26,4 +28,34 @@ yt-live-chat-item-list-renderer[allow-scroll] #item-scroller.yt-live-chat-item-l
 
 yt-live-chat-message-input-renderer {
     padding: 9px !important;
+}
+
+/* Show deleted messages */
+#message.yt-live-chat-text-message-renderer:empty,
+#deleted-state.yt-live-chat-text-message-renderer:empty,
+#show-original.yt-live-chat-text-message-renderer:empty,
+yt-live-chat-text-message-renderer[show-original] #show-original
+yt-live-chat-text-message-renderer,
+yt-live-chat-text-message-renderer[is-deleted]:not([show-original])
+#message.yt-live-chat-text-message-renderer {
+    display: inline !important;
+}
+span.yt-live-chat-text-message-renderer#deleted-state{
+    display: none !important;
+}
+
+/* Fix kappa */
+#message.yt-live-chat-text-message-renderer img[alt="🌝"] {
+    background: url("https://static-cdn.jtvnw.net/emoticons/v1/25/1.0") no-repeat;
+    width: 0px;
+    height: 0px;
+    padding-right: 22px;
+    padding-bottom: 28px;
+    background-size: 22px 28px;
+    box-sizing: border-box;
+}
+
+/* Hide welcome message */
+yt-live-chat-viewer-engagement-message-renderer {
+    display: none !important;
 }
