@@ -82,7 +82,10 @@ export class Message {
     }
     addChannelLink(){
         var el = this.node;
-        if(el.getAttribute('link-applied') !== 'true'){
+        console.log(el.getAttribute('link-applied'));
+        if(
+            !el.getAttribute('link-applied')
+        ){
             const span = template.cloneNode(true);
             const a = span.querySelector('a');
 
@@ -92,9 +95,9 @@ export class Message {
             }else{
                 a.href = `https://www.youtube.com/channel/${el.data.authorExternalChannelId}`;
             }
-
+            span.id = 'author-link';
             el.userLink = a;
-            wrap(el.querySelector('#author-name'), span);
+            el.querySelector('#chat-badges').parentNode.insertBefore(span, el.querySelector('#chat-badges'));
             el.setAttribute('link-applied', '');
 
             const originalDataChanged = el.dataChanged_.bind(el);
