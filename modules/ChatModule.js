@@ -127,9 +127,9 @@ export class Message {
              badge.setAttribute('title', badge.getAttribute('shared-tooltip-text'));
          });
          // Fix tooltip on emotes
-         var emotes = this.node.querySelectorAll('img.emoji');
-         if(emotes && emotes.length !== 0) console.log('emotes', emotes);
-         Array.from(emotes).forEach(emote => {
+         var chatEmotes = this.node.querySelectorAll('img.emoji');
+         if(chatEmotes && chatEmotes.length !== 0) console.log('chatEmotes', chatEmotes);
+         Array.from(chatEmotes).forEach(emote => {
              emote.setAttribute('title', emote.getAttribute('shared-tooltip-text'));
              console.log('yo emote', emote.title, 'a', emote.getAttribute('shared-tooltip-text'));
          });
@@ -166,7 +166,7 @@ export class Message {
                 for(let i = 0, length = mutation.removedNodes.length; i < length; i++) {
                     const removedNode = mutation.removedNodes[i];
                     if(typeof removedNode.className === 'string' && // check if className exists, is 'SVGAnimatedString' when window resized and removed 
-                        ~removedNode.className.indexOf('Emote') !== 0) {
+                        ~removedNode.className.indexOf('ytl-emote') !== 0) {
                         emoteRemoved = true;
                     }
                 }
