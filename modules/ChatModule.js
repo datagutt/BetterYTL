@@ -123,7 +123,7 @@ export class Message {
          var textNode = this.textNode;
  
          // Fix timestamp (AM/PM to european format)
-         var timestamp = this.node.$.timestamp;
+         var timestamp = this.node.querySelector('#timestamp');
          if(timestamp) timestamp.innerText = timeConversion(timestamp.innerText);
 
          // Fix tooltip on badges
