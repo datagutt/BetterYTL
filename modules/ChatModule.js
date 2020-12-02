@@ -82,7 +82,7 @@ export class Message {
     }
     addChannelLink(){
         var el = this.node;
-        console.log(el.getAttribute('link-applied'));
+        if(el) console.log(el.getAttribute('link-applied'));
         if(
             !el.getAttribute('link-applied')
         ){
@@ -95,9 +95,11 @@ export class Message {
             }else{
                 a.href = `https://www.youtube.com/channel/${el.data.authorExternalChannelId}`;
             }
-            span.id = 'author-link';
-            el.userLink = a;
-            el.querySelector('#chat-badges').parentNode.insertBefore(span, el.querySelector('#chat-badges'));
+            if(el && el.querySelectorAll('#author-link').length === 0){
+                span.id = 'author-link';
+                el.userLink = a;
+                el.querySelector('#chat-badges').parentNode.insertBefore(span, el.querySelector('#chat-badges'));
+            }
             el.setAttribute('link-applied', '');
 
             const originalDataChanged = el.dataChanged_.bind(el);
