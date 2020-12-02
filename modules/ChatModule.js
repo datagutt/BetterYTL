@@ -123,15 +123,15 @@ export class Message {
 
          // Fix tooltip on badges
          var badges = this.node.querySelectorAll('yt-live-chat-author-badge-renderer');
-         badges.forEach(badge => {
-             badge.title = badge.getAttribute('shared-tooltip-text');
+         Array.from(badges).forEach(badge => {
+             badge.setAttribute('title', badge.getAttribute('shared-tooltip-text'));
          });
          // Fix tooltip on emotes
          var emotes = this.node.querySelectorAll('img.emoji');
          if(emotes && emotes.length !== 0) console.log('emotes', emotes);
-         emotes.forEach(emote => {
-             console('yo emote', emote.title, emote.attributes);
-             emote.title = emote.getAttribute('shared-tooltip-text');
+         Array.from(emotes).forEach(emote => {
+             emote.setAttribute('title', emote.getAttribute('shared-tooltip-text'));
+             console.log('yo emote', emote.title, 'a', emote.getAttribute('shared-tooltip-text'));
          });
          // Get the author of the message
          var authorName = this.node.querySelector('#author-name');
@@ -156,25 +156,28 @@ export class Message {
          this.parsedText = innerHtml.trim();
     }
     watch(){
-        
-        
         this.observer = new MutationObserver(mutations => {
-            this.loopCount++;
-            if(this.loopCount >= 5){
-                console.log('we looped a lot for this msg', this.loopCount, this);
-                return;
-            }
-            if(this.destroyed) return;
-            if(
-                document.body.contains(this.node) &&
-                this.textNode.html.trim() !== this.parsedText.trim()
-                && this.id === this.node.id
-                && this.id === this.node.getAttribute('mesasge-id')
-            ){
+            let emoteRemoved = false;
+
+            mutations.forEach(mutation => {
+                if (typeof mutation.removedNodes === 'undefined') return;
+                if (mutation.removedNodes.length <= 0) return; // This must be after undefined check
+
+                for(let i = 0, length = mutation.removedNodes.length; i < length; i++) {
+                    const removedNode = mutation.removedNodes[i];
+                    if(typeof removedNode.className === 'string' && // check if className exists, is 'SVGAnimatedString' when window resized and removed 
+                        ~removedNode.className.indexOf('Emote') !== 0) {
+                        emoteRemoved = true;
+                    }
+                }
+
+            });
+
+            if(emoteRemoved && document.body.contains(this.node)){
                 this.textNode.node.innerHTML = this.parsedText;
-                //this.parsedText = this.textNode.node.innerHTML;
             }
         });
+
         this.observer.observe(this.node, {
             childList: true,
             attributes: false,
@@ -277,7 +280,7 @@ export default class ChatModule {
                             'yt-live-chat-legacy-paid-message-renderer',
                         ];
                         if(tags.includes(node.tagName.toLowerCase())){
-                            this.onChatMessage(node);
+                            if(!this.messages.get(node.id)) this.onChatMessage(node);
                         }
                     }
                 }
