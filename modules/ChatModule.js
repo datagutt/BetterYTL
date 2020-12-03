@@ -24,8 +24,8 @@ const timeConversion = function (s) {
     if(s.endsWith('AM') && d.getHours() === 12) d.setHours(d.getHours() - 12);
 
     let result = (d.getHours() < 10 ? '0' + d.getHours() : d.getHours()) + ':' +
-        (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) /*+ ':' +     
-        (d.getSeconds() <10 ? "0"+ d.getSeconds(): d.getSeconds())*/;
+        (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) + ':' +     
+        (d.getSeconds() <10 ? "0"+ d.getSeconds(): d.getSeconds());
 
     return result;
 }
@@ -125,7 +125,9 @@ export class Message {
  
          // Fix timestamp (AM/PM to european format)
          var timestamp = this.node.querySelector('#timestamp');
-         if(this.isPreloaded && timestamp) timestamp.innerText = timeConversion(timestamp.innerText);
+         var rendererPrototype = Object.getPrototypeOf(this.node);
+         console.log(rendererPrototype, rendererPrototype.TIME_FORMATTER);
+         if(!rendererPrototype.TIME_FORMATTER.isModified && timestamp) timestamp.innerText = timeConversion(timestamp.innerText);
 
          // Fix tooltip on badges
          var badges = this.node.querySelectorAll('yt-live-chat-author-badge-renderer');
@@ -248,7 +250,8 @@ export default class ChatModule {
         let rendererPrototype = Object.getPrototypeOf(messageRenderer);
 
         rendererPrototype.TIME_FORMATTER.patternParts_ = [];
-        rendererPrototype.TIME_FORMATTER.applyPattern_('hh:mm:ss');      
+        rendererPrototype.TIME_FORMATTER.isModified = true;
+        rendererPrototype.TIME_FORMATTER.applyPattern_('HH:mm:ss');      
     }
     forceLive(){
         var liveBtn = document.querySelector('#view-selector a:nth-child(2) paper-item')

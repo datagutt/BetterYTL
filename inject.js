@@ -33,6 +33,7 @@ class BetterYTL {
 	onRouteChange(location) {
 		switch(location){
 			case '/live_chat':
+			case '/live_chat_replay':
 				this.waitForLoad('chat').then(() => {
 					let c = new ChatModule;
 					console.log('c', c);
