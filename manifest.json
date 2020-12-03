@@ -11,6 +11,7 @@
     {
 			"matches": [
 				"*://www.youtube.com/live_chat*",
+				"*://www.youtube.com/live_chat_replay*",
 				"*://studio.youtube.com/channel/*/livestreaming/dashboard?*"
 			],
 

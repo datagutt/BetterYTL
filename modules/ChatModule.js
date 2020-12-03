@@ -24,8 +24,8 @@ const timeConversion = function (s) {
     if(s.endsWith('AM') && d.getHours() === 12) d.setHours(d.getHours() - 12);
 
     let result = (d.getHours() < 10 ? '0' + d.getHours() : d.getHours()) + ':' +
-        (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) + ':' +     
-        (d.getSeconds() <10 ? "0"+ d.getSeconds(): d.getSeconds());
+        (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) /*+ ':' +     
+        (d.getSeconds() <10 ? "0"+ d.getSeconds(): d.getSeconds())*/;
 
     return result;
 }
@@ -55,7 +55,8 @@ function wrap(el, wrapper) {
 const template = document.createElement('span');
 template.innerHTML = ` <a target="_blank" style='color: gray; text-decoration: none'>(U)</a>`;
 export class Message {
-    constructor(node){
+    constructor(node, isPreloaded){
+        this.isPreloaded = isPreloaded ? true : false;
         this.node = node;
         this.id = this.node.id;
         this.observer = null;
@@ -124,7 +125,7 @@ export class Message {
  
          // Fix timestamp (AM/PM to european format)
          var timestamp = this.node.querySelector('#timestamp');
-         if(timestamp) timestamp.innerText = timeConversion(timestamp.innerText);
+         if(this.isPreloaded && timestamp) timestamp.innerText = timeConversion(timestamp.innerText);
 
          // Fix tooltip on badges
          var badges = this.node.querySelectorAll('yt-live-chat-author-badge-renderer');
@@ -233,7 +234,7 @@ export default class ChatModule {
 
             // Preloaded messages
             document.querySelectorAll('#items.style-scope.yt-live-chat-item-list-renderer yt-live-chat-text-message-renderer').forEach(node => {
-                if(node) this.onChatMessage(node);
+                if(node) this.onChatMessage(node, true);
             });
         }else{
             console.log('BetterYTL: Chat magic already done')
@@ -247,7 +248,7 @@ export default class ChatModule {
         let rendererPrototype = Object.getPrototypeOf(messageRenderer);
 
         rendererPrototype.TIME_FORMATTER.patternParts_ = [];
-        rendererPrototype.TIME_FORMATTER.applyPattern_('h:mm:ss a');      
+        rendererPrototype.TIME_FORMATTER.applyPattern_('hh:mm:ss');      
     }
     forceLive(){
         var liveBtn = document.querySelector('#view-selector a:nth-child(2) paper-item')
@@ -255,8 +256,8 @@ export default class ChatModule {
             liveBtn.click()
         }
     }
-    onChatMessage = (entry) => {
-        const message = new Message(entry);
+    onChatMessage = (entry, isPreloaded) => {
+        const message = new Message(entry, isPreloaded);
         this.messages.set(message.id, message);
     }
     onChatMessageRemoved = (entry) => {
