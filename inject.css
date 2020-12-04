@@ -30,20 +30,6 @@ yt-live-chat-message-input-renderer {
     padding: 9px !important;
 }
 
-/* Show deleted messages */
-#message.yt-live-chat-text-message-renderer:empty,
-#deleted-state.yt-live-chat-text-message-renderer:empty,
-#show-original.yt-live-chat-text-message-renderer:empty,
-yt-live-chat-text-message-renderer[show-original] #show-original
-yt-live-chat-text-message-renderer,
-yt-live-chat-text-message-renderer[is-deleted]:not([show-original])
-#message.yt-live-chat-text-message-renderer {
-    display: inline !important;
-}
-span.yt-live-chat-text-message-renderer#deleted-state{
-    display: none !important;
-}
-
 /* Fix kappa */
 #message.yt-live-chat-text-message-renderer img[alt="🌝"] {
     background: url("https://static-cdn.jtvnw.net/emoticons/v1/25/1.0") no-repeat;
