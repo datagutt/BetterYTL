@@ -30,6 +30,17 @@ yt-live-chat-message-input-renderer {
     padding: 9px !important;
 }
 
+/* Fix emotes height/width (same as twitch) */
+#message.yt-live-chat-text-message-renderer img.emoji {
+    height: 28px !important;
+    display: inline-block !important;
+    overflow: hidden  !important;
+    max-width: 100%  !important;
+    min-width: 20px !important;
+    width: auto !important;
+}
+
+
 /* Fix kappa */
 #message.yt-live-chat-text-message-renderer img[alt="🌝"] {
     background: url("https://static-cdn.jtvnw.net/emoticons/v1/25/1.0") no-repeat;
