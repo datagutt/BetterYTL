@@ -55,6 +55,16 @@ span.yt-live-chat-text-message-renderer#deleted-state{
     box-sizing: border-box;
 }
 
+/* Fix arvedans in tappelino chat */
+#message.yt-live-chat-text-message-renderer img[src="https://yt3.ggpht.com/9Kw8Wn_6v3XV4ZGfD_Gfs9uhc2GGbi3Ld1qRZsBSqYN8Z7lwIZ66tFisVjq4ChquShQcuFX3=w24-h24-c-k-nd"] {
+    background: url("https://media1.tenor.com/images/defb43db249779007ff867573d6db9bc/tenor.gif?itemid=15028810") no-repeat;
+    width: 0px;
+    height: 0px;
+    padding-right: 22px;
+    padding-bottom: 28px;
+    background-size: 22px 28px;
+    box-sizing: border-box;
+}
 /* Hide welcome message */
 yt-live-chat-viewer-engagement-message-renderer {
     display: none !important;
