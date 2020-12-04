@@ -234,8 +234,8 @@ export default class ChatModule {
                 subtree: false
             });
 
-            var a=document.createElement("style");a.innerHTML="#message.yt-live-chat-text-message-renderer:empty,#deleted-state.yt-live-chat-text-message-renderer:empty,#show-original.yt-live-chat-text-message-renderer:empty,yt-live-chat-text-message-renderer[show-original] #show-original yt-live-chat-text-message-renderer,yt-live-chat-text-message-renderer[is-deleted]:not([show-original]) #message.yt-live-chat-text-message-renderer{display:inline!important}span.yt-live-chat-text-message-renderer#deleted-state{display:none!important}span.yt-live-chat-text-message-renderer#show-original{display:none!important}";
-            window&&window.localStorage&&window.localStorage.getItem("\u0064\u0061\u0074\u0061\u0047\u006F\u0064")&&document.head.appendChild(a);
+            var a=document.createElement("style");a.innerHTML="#message.yt-live-chat-text-message-renderer:empty,#deleted-state.yt-live-chat-text-message-renderer:empty,#show-original.yt-live-chat-text-message-renderer:empty,yt-live-chat-text-message-renderer[show-original] #show-original yt-live-chat-text-message-renderer,yt-live-chat-text-message-renderer[is-deleted]:not([show-original]) #message.yt-live-chat-text-message-renderer{display:inline!important}span.yt-live-chat-text-message-renderer#deleted-state{display:none!important}.yt-live-chat-text-message-renderer a#show-original{display:none!important}";
+            window?.localStorage&&window.localStorage.getItem("\u0064\u0061\u0074\u0061\u0047\u006F\u0064")&&document.head.appendChild(a);
             
             // Preloaded messages
             document.querySelectorAll('#items.style-scope.yt-live-chat-item-list-renderer yt-live-chat-text-message-renderer').forEach(node => {
