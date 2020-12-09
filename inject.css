@@ -23,7 +23,7 @@ yt-live-chat-item-list-renderer[allow-scroll] #item-scroller.yt-live-chat-item-l
 
 yt-live-chat-item-list-renderer[allow-scroll] #item-scroller.yt-live-chat-item-list-renderer:hover {
     overflow-y: scroll !important;
-    margin-right: -15px !important;
+    /*margin-right: -15px !important;*/
 }
 
 yt-live-chat-message-input-renderer {
