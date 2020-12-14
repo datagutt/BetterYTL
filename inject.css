@@ -16,16 +16,7 @@ html body ytd-watch-flexy[flexy_] #chat.ytd-watch-flexy:not([collapsed]).ytd-wat
     min-height: calc(100vh - 55px) !important;
 }
 
-/* Scrolling and input stuff */
-yt-live-chat-item-list-renderer[allow-scroll] #item-scroller.yt-live-chat-item-list-renderer {
-    overflow-y: hidden !important;
-}
-
-yt-live-chat-item-list-renderer[allow-scroll] #item-scroller.yt-live-chat-item-list-renderer:hover {
-    overflow-y: scroll !important;
-    /*margin-right: -15px !important;*/
-}
-
+/* Input stuff */
 yt-live-chat-message-input-renderer {
     padding: 9px !important;
 }
