@@ -12,7 +12,7 @@ html body ytd-watch-flexy[flexy_] #secondary.ytd-watch-flexy {
     min-width: 350px !important;
 }
 
-html body ytd-watch-flexy[flexy_] #chat.ytd-watch-flexy:not([collapsed]).ytd-watch-flexy {
+ytd-watch-flexy[flexy][js-panel-height_] #chat.ytd-watch-flexy:not([collapsed]).ytd-watch-flexy, ytd-watch-flexy[flexy][js-panel-height_] #chat-container.ytd-watch-flexy:not([chat-collapsed]).ytd-watch-flexy  {
     min-height: calc(100vh - 55px) !important;
 }
 
