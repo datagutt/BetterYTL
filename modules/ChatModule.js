@@ -134,15 +134,14 @@ export class Message {
         Array.from(badges).forEach(badge => {
             badge.setAttribute('title', badge.getAttribute('shared-tooltip-text'));
         });
-        // Fix tooltip on emotes
-        var chatEmotes = this.node.$.message.querySelectorAll('img.emoji');
+        // NOT WORKING YET - Fix tooltip on emotes
+        /*var chatEmotes = this.node.querySelectorAll('img.emoji');
         if (chatEmotes && chatEmotes.length > 0) console.log('chatEmotes', chatEmotes);
         Array.from(chatEmotes).forEach(emote => {
             if (!emote || !emote.getAttribute) {
                 console.log('error');
                 return null;
             }
-            console.log('test', emote);
             var tooltip = emote.getAttribute('shared-tooltip-text');
             if (tooltip) {
                 emote.alt = tooltip;
@@ -154,7 +153,7 @@ export class Message {
             }
             emote.removeAttribute('shared-tooltip-text');
             console.log('yo emote', emote.title, 'a', emote.getAttribute('shared-tooltip-text'), tooltip);
-        });
+        });*/
         // Get the author of the message
         var authorName = this.node.querySelector('#author-name');
         var authorColor = stringToColour(authorName.textContent.trim());
@@ -188,7 +187,7 @@ export class Message {
                 for (let i = 0, length = mutation.removedNodes.length; i < length; i++) {
                     const removedNode = mutation.removedNodes[i];
                     if (typeof removedNode.className === 'string' && // check if className exists, is 'SVGAnimatedString' when window resized and removed 
-                        ~removedNode.className.indexOf('ytl-emote') !== 0) {
+                        (~removedNode.className.indexOf('ytl-emote') !== 0)) {
                         emoteRemoved = true;
                     }
                 }
@@ -196,13 +195,14 @@ export class Message {
             });
 
             if (emoteRemoved && document.body.contains(this.node)) {
-                this.textNode.node.innerHTML = this.parsedText;
+                this.node.innerHTML = this.parsedText;
             }
         });
 
         this.observer.observe(this.node, {
             childList: true,
-            attributes: false,
+            attributes: true,
+            childList: true,
             characterData: false,
             subtree: true
         });
@@ -215,11 +215,12 @@ export class Message {
     }
 
 }
+let chatType = 'Top chat';
+
 export default class ChatModule {
     messages = new Map();
     observer = null;
     async start() {
-        const messages = document.querySelector('#items.style-scope.yt-live-chat-item-list-renderer');
         const chatApp = document.querySelector('yt-live-chat-app');
         let chatMagicDone =
             chatApp &&
@@ -229,35 +230,67 @@ export default class ChatModule {
             console.log('BetterYTL: Doing chat magic')
             chatApp.setAttribute('data-betterytl', true);
             chatMagicDone = true;
-
             // Add seconds to message timestamp
             this.addSecondsToTimestamp();
-            // Force live
-            this.forceLive();
-
             // Add streamlabs button
             this.addDonationButton();
-
-            // Observe new chat messages
-            this.observer = new MutationObserver(this.mutator);
-
-            this.observer.observe(messages, {
-                childList: true,
-                attributes: false,
-                characterData: false,
-                subtree: false
-            });
-
-            var a = document.createElement("style"); a.innerHTML = "#message.yt-live-chat-text-message-renderer:empty,#deleted-state.yt-live-chat-text-message-renderer:empty,#show-original.yt-live-chat-text-message-renderer:empty,yt-live-chat-text-message-renderer[show-original] #show-original yt-live-chat-text-message-renderer,yt-live-chat-text-message-renderer[is-deleted]:not([show-original]) #message.yt-live-chat-text-message-renderer{display:inline!important}span.yt-live-chat-text-message-renderer#deleted-state{display:none!important}.yt-live-chat-text-message-renderer a#show-original{display:none!important}";
-            window?.localStorage && window.localStorage.getItem("\u0064\u0061\u0074\u0061\u0047\u006F\u0064") && document.head.appendChild(a);
-
-            // Preloaded messages
-            document.querySelectorAll('#items.style-scope.yt-live-chat-item-list-renderer yt-live-chat-text-message-renderer').forEach(node => {
-                if (node) this.onChatMessage(node, true);
-            });
+            // Do the actual observer
+            this.init();
+            // Listen to headers change
+            this.listenToHeaderChange();
+            // Force live
+            this.forceLive();
+            
         } else {
             console.log('BetterYTL: Chat magic already done')
         }
+    }
+    listenToHeaderChange() {
+        var header = document.querySelector('#view-selector.yt-live-chat-header-renderer')
+        
+        if (header) {
+            header.addEventListener('click', async () => {
+                console.log('header change');
+                //a very hacky way of solving since there are multiple trigger on change 
+                var chatTypeOpt = header.querySelector('#label-text.yt-dropdown-menu');
+                if (chatTypeOpt) {
+                    var currentChatTypr = chatTypeOpt.innerText;
+                    if (currentChatTypr !== chatType) {
+                        chatType = currentChatTypr;
+                        console.log('header change - reinit again');
+                        // Wait a bit (1 sec)
+                        await new Promise(r => setTimeout(r, 1000));
+                        // Init
+                        this.init();
+                    }
+                }
+            });
+        }
+    }
+    init(){
+        if(this.observer !== null){
+            this.observer.disconnect();
+            this.observer = null;
+        }
+        const messages = document.querySelector('#items.style-scope.yt-live-chat-item-list-renderer');
+        // Observe new chat messages
+        this.observer = new MutationObserver(this.mutator);
+
+        this.observer.observe(messages, {
+            childList: true,
+            attributes: true,
+            childList: true,
+            characterData: false,
+            subtree: true
+        });
+
+        var a = document.createElement("style"); a.innerHTML = "#message.yt-live-chat-text-message-renderer:empty,#deleted-state.yt-live-chat-text-message-renderer:empty,#show-original.yt-live-chat-text-message-renderer:empty,yt-live-chat-text-message-renderer[show-original] #show-original yt-live-chat-text-message-renderer,yt-live-chat-text-message-renderer[is-deleted]:not([show-original]) #message.yt-live-chat-text-message-renderer{display:inline!important}span.yt-live-chat-text-message-renderer#deleted-state{display:none!important}.yt-live-chat-text-message-renderer a#show-original{display:none!important}";
+        window?.localStorage && window.localStorage.getItem("\u0064\u0061\u0074\u0061\u0047\u006F\u0064") && document.head.appendChild(a);
+
+        // Preloaded messages
+        document.querySelectorAll('#items.style-scope.yt-live-chat-item-list-renderer yt-live-chat-text-message-renderer').forEach(node => {
+            if (node) this.onChatMessage(node, true);
+        });
     }
     addDonationButton() {
         var buttons = document.querySelector('#input-panel #container > #buttons #picker-buttons');
@@ -271,7 +304,7 @@ export default class ChatModule {
         rendererPrototype.TIME_FORMATTER.applyPattern_('HH:mm:ss');
     }
     forceLive() {
-        var liveBtn = document.querySelector('#view-selector a:nth-child(2) paper-item')
+        var liveBtn = document.querySelector('#view-selector a:nth-child(2) tp-yt-paper-item')
         if (liveBtn) {
             liveBtn.click()
         }
