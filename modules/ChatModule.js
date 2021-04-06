@@ -195,7 +195,7 @@ export class Message {
             });
 
             if (emoteRemoved && document.body.contains(this.node)) {
-                this.node.innerHTML = this.parsedText;
+                this.node.$.message.innerHTML = this.parsedText;
             }
         });
 
