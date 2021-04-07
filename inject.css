@@ -221,7 +221,7 @@ yt-live-chat-viewer-engagement-message-renderer {
     height: auto;
 }
 
-#betterytl-header p {
+#betterytl-header p:first-of-type {
     padding-top: 15px;
     padding-bottom: 15px;
 }
