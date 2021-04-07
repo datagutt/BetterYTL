@@ -128,6 +128,7 @@ yt-live-chat-viewer-engagement-message-renderer {
     padding-bottom: 10px;
 
     width: 100%;
+    height: 100%;
     text-align: center;
     will-change: transform;
 
