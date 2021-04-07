@@ -129,6 +129,7 @@ yt-live-chat-viewer-engagement-message-renderer {
     text-align: center;
     will-change: transform;
 
+    z-index: 99999;
     position: absolute;
     top: 15%;
     right: 0;
