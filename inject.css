@@ -33,6 +33,8 @@ yt-live-chat-message-input-renderer {
 
 
 /* Fix kappa */
+
+yt-live-chat-text-input-field-renderer[alt="🌝"],
 #message.yt-live-chat-text-message-renderer img[alt="🌝"] {
     background: url("https://static-cdn.jtvnw.net/emoticons/v1/25/1.0") no-repeat;
     width: 0px;
