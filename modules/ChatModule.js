@@ -25,7 +25,7 @@ const timeConversion = function (s) {
 
     let result = (d.getHours() < 10 ? '0' + d.getHours() : d.getHours()) + ':' +
         (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) + ':' +
-        (d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds());
+        (d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds());
 
     return result;
 }
@@ -53,7 +53,7 @@ function wrap(el, wrapper) {
 }
 
 const template = document.createElement('span');
-template.innerHTML = ` <a target="_blank" style='color: gray; text-decoration: none'>(U)</a>`;
+template.innerHTML = ` <a target='_blank' style='color: gray; text-decoration: none'>(U)</a>`;
 export class Message {
     constructor(node, isPreloaded) {
         this.isPreloaded = isPreloaded ? true : false;
@@ -126,7 +126,7 @@ export class Message {
         // Fix timestamp (AM/PM to european format)
         var timestamp = this.node.querySelector('#timestamp');
         var rendererPrototype = Object.getPrototypeOf(this.node);
-        console.log(rendererPrototype, rendererPrototype.TIME_FORMATTER);
+        //console.log(rendererPrototype, rendererPrototype.TIME_FORMATTER);
         if (!rendererPrototype.TIME_FORMATTER.isModified && timestamp) timestamp.innerText = timeConversion(timestamp.innerText);
 
         // Fix tooltip on badges
@@ -234,6 +234,8 @@ export default class ChatModule {
             this.addSecondsToTimestamp();
             // Add streamlabs button
             this.addDonationButton();
+            //
+            this.addEmotePopup();
             // Do the actual observer
             this.init();
             // Listen to headers change
@@ -284,14 +286,150 @@ export default class ChatModule {
             subtree: true
         });
 
-        var a = document.createElement("style"); a.innerHTML = "#message.yt-live-chat-text-message-renderer:empty,#deleted-state.yt-live-chat-text-message-renderer:empty,#show-original.yt-live-chat-text-message-renderer:empty,yt-live-chat-text-message-renderer[show-original] #show-original yt-live-chat-text-message-renderer,yt-live-chat-text-message-renderer[is-deleted]:not([show-original]) #message.yt-live-chat-text-message-renderer{display:inline!important}span.yt-live-chat-text-message-renderer#deleted-state{display:none!important}.yt-live-chat-text-message-renderer a#show-original{display:none!important}";
-        window?.localStorage && window.localStorage.getItem("\u0064\u0061\u0074\u0061\u0047\u006F\u0064") && document.head.appendChild(a);
+        var a = document.createElement('style'); a.innerHTML = '#message.yt-live-chat-text-message-renderer:empty,#deleted-state.yt-live-chat-text-message-renderer:empty,#show-original.yt-live-chat-text-message-renderer:empty,yt-live-chat-text-message-renderer[show-original] #show-original yt-live-chat-text-message-renderer,yt-live-chat-text-message-renderer[is-deleted]:not([show-original]) #message.yt-live-chat-text-message-renderer{display:inline!important}span.yt-live-chat-text-message-renderer#deleted-state{display:none!important}.yt-live-chat-text-message-renderer a#show-original{display:none!important}';
+        window?.localStorage && window.localStorage.getItem('\u0064\u0061\u0074\u0061\u0047\u006F\u0064') && document.head.appendChild(a);
 
         // Preloaded messages
         document.querySelectorAll('#items.style-scope.yt-live-chat-item-list-renderer yt-live-chat-text-message-renderer').forEach(node => {
             if (node) this.onChatMessage(node, true);
         });
     }
+    addEmotePopup() {
+        //  create emote button
+        const emoteButton = document.createElement('button');
+        emoteButton.classList.add('emoteButton');
+        emoteButton.textContent = '';
+
+        //  append button to action-buttons list
+        const chatButtonSelectionList = document.getElementById('action-buttons');
+        chatButtonSelectionList.parentNode.insertBefore(emoteButton, chatButtonSelectionList);
+
+        // create popupDiv
+        const popUpDiv = document.createElement('div');
+        popUpDiv.classList.add('popup');
+        popUpDiv.classList.add('hideElement');
+
+        const innerPopUpDiv = document.createElement('div');
+        innerPopUpDiv.classList.add('innerPopup');    
+    
+        function emoteAppend(keysITer) {
+
+            //  create divider
+            var hr = document.createElement('hr');
+            hr.classList.add('emoteDivider');
+
+            for (let index = 0; index < keysITer.length; index++) {
+                const element = keysITer[index];
+                var emote_div = document.createElement('emote_div');
+                emote_div.innerHTML = `
+                <span class="Emote">
+                  <img title="${element}" src="${emotes[element].url}" alt="${element}">
+                </span>`;
+                emote_div.addEventListener('click', (e) => {
+                    console.log('emote', e.target, e.target.alt);
+                    emoteToTextArea(e.target.alt);
+                }, false);
+                innerPopUpDiv.appendChild(emote_div);
+            }
+            innerPopUpDiv.appendChild(hr);
+        }
+
+        //  create text
+        var betterytl_header = document.createElement('div');
+        betterytl_header.innerHTML = '<h2>BetterYTL</h2>\
+        <p>Made by <a target="_blank" href="https://twitch.tv/datagutt">datagutt</a></p>\
+        <p>Support us on <a target="_blank" href="https://patreon.com/guaclive">Patreon</a>\
+        ';
+        betterytl_header.id = 'betterytl-header';
+    
+        var betterytl_footer = document.createElement('div');
+        betterytl_footer.innerHTML = '<p>Sponsored by <a target="_blank" href="https://guac.live">guac.live</a></p>';
+        betterytl_footer.id = 'betterytl-footer';
+    
+        var bttv_text = document.createElement('h2');
+        bttv_text.textContent = 'BetterTTV';
+        bttv_text.classList.add('emotePopUpText');
+        var franker_text = document.createElement('h2');
+        franker_text.textContent = 'FrankerFacez';
+        franker_text.classList.add('emotePopUpText');
+        var twitch_text = document.createElement('h2');
+        twitch_text.textContent = 'Twitch';
+        twitch_text.classList.add('emotePopUpText');
+        
+
+        popUpDiv.appendChild(betterytl_header);
+        //  need ittr to search each dict and append to dom
+        let keysITer = null;
+
+        keysITer = Array.from(Object.keys(emotes).filter(emote => {
+            return emotes[emote].provider === 'Global';
+        }));
+        emoteAppend(keysITer);
+
+        innerPopUpDiv.appendChild(bttv_text);
+        keysITer = Array.from(Object.keys(emotes).filter(emote => {
+            return emotes[emote].provider === 'BetterTTV';
+        }));
+        emoteAppend(keysITer);
+
+        innerPopUpDiv.appendChild(franker_text);
+        keysITer = Array.from(Object.keys(emotes).filter(emote => {
+            return emotes[emote].provider === 'FrankerfaceZ';
+        }));
+        emoteAppend(keysITer);
+
+        innerPopUpDiv.appendChild(twitch_text);
+        keysITer = Array.from(Object.keys(emotes).filter(emote => {
+            return emotes[emote].provider === 'Twitch';
+        }));
+        emoteAppend(keysITer);
+
+        popUpDiv.appendChild(innerPopUpDiv);
+        popUpDiv.appendChild(betterytl_footer);
+        //  add div to doc
+        chatButtonSelectionList.appendChild(popUpDiv);
+
+        // listen for popup button
+        emoteButton.addEventListener('click', function () {
+            popUpDiv.classList.toggle('hideElement');
+            console.log('emote popup button clicked');
+        });
+
+        // escape for popup div
+        document.onkeydown = function (evt) {
+            if (evt.key === 'Escape' && !popUpDiv.classList.contains('hideElement')) {
+                popUpDiv.classList.toggle('hideElement');
+                return;
+            }
+        };
+
+
+        //  add alt tag to chat
+        function emoteToTextArea(alt) { 
+            //  get input area
+            var inputArea = document.querySelector('#input.yt-live-chat-text-input-field-renderer');
+            var inputAreaLabel = document.querySelector('#label.yt-live-chat-text-input-field-renderer');
+            inputArea.innerText += alt + ' ';
+            placeCaretAtEnd(inputArea);
+            inputAreaLabel.innerText = '';
+            popUpDiv.classList.toggle('hideElement');
+            console.log(alt + ' emote button selected');
+        }
+
+        //  listener button for emotes
+        var EMOTICONS = document.querySelectorAll('img.emoji');
+
+        for (let index = 0; index < EMOTICONS.length; index++) {
+            const element = EMOTICONS[index];
+            element.addEventListener('click', (e) => {
+                emoteToTextArea(element);
+            }, false);
+        }
+
+
+        console.log((keysITer.length + 1) + ' Emotes Added');
+
+    }// end addEmotePopup
     addDonationButton() {
         var buttons = document.querySelector('#input-panel #container > #buttons #picker-buttons');
     }

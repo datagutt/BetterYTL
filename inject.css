@@ -104,3 +104,142 @@ yt-live-chat-text-input-field-renderer[alt="🌝"],
 yt-live-chat-viewer-engagement-message-renderer {
     display: none !important;
 }
+
+/* Emote */
+
+.emotePopUpText {
+    display: block;
+    width: 100%;
+    font-weight: 500;
+    padding: 5px 6px;
+}
+
+.popup {
+    background-color: var(--yt-app-background);
+    color: var(--yt-live-chat-primary-text-color);
+
+
+    border-color: var(--ytd-searchbox-border-color);
+    border-radius: 5px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    width: 100%;
+    text-align: center;
+    will-change: transform;
+
+    position: absolute;
+    top: 15%;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.innerPopup {
+    display: inline-block;
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 70%;
+    padding: 30px;
+}
+
+.popup,
+.popup * {
+    box-sizing: border-box;
+    line-height: 1.15;
+}
+
+.emoteButton {
+    background-color: rgba(255, 255, 255, 0.1);
+    background-image: url('https://emotes.guac.live/global/0.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80% 80%;
+    width: var(--yt-live-chat-32px-icon-button_-_width);
+    height: var(--yt-live-chat-32px-icon-button_-_height);
+    padding: var(--yt-live-chat-32px-icon-button_-_padding);
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.emoteButton:focus {
+    outline: 0;
+}
+
+.Emote {
+    position: relative;
+    display: inline-block;
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    padding: 6px;
+    box-sizing: border-box;
+    line-height: 1.15;
+}
+
+.Emote img {
+    z-index: 1;
+    position: relative;
+    text-align: center;
+    cursor: default;
+
+    height: 28px !important;
+    display: inline-block;
+    overflow: hidden !important;
+    max-width: 100% !important;
+    min-width: 20px !important;
+    width: auto !important;
+}
+
+.Emote:hover:before {
+    z-index: 0;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #444;
+    border-radius: 100%;
+}
+
+.hideElement {
+    display: none !important;
+}
+
+#betterytl-header {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    max-height: 100px;
+    height: auto;
+}
+
+#betterytl-header p {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+#betterytl-header a {
+    color: #6441a5 ;
+}
+
+#betterytl-footer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    max-height: 50px;
+    height: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+#betterytl-footer a {
+    color: #19a974;
+}
