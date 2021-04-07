@@ -115,11 +115,13 @@ yt-live-chat-viewer-engagement-message-renderer {
 }
 
 .popup {
+    background-color: #121212;
     background-color: var(--yt-app-background);
+    color: white;
     color: var(--yt-live-chat-primary-text-color);
 
 
-    border-color: var(--ytd-searchbox-border-color);
+    border-color: #ccc;
     border-radius: 5px;
 
     padding-top: 10px;
