@@ -409,9 +409,10 @@ export default class ChatModule {
             //  get input area
             var inputArea = document.querySelector('#input.yt-live-chat-text-input-field-renderer');
             var inputAreaLabel = document.querySelector('#label.yt-live-chat-text-input-field-renderer');
-            inputArea.innerText += alt + ' ';
+            
+            inputArea.textContent += alt + ' ';
             placeCaretAtEnd(inputArea);
-            inputAreaLabel.innerText = '';
+            inputAreaLabel.textContent = '';
             popUpDiv.classList.toggle('hideElement');
             console.log(alt + ' emote button selected');
         }
