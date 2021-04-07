@@ -1,6 +1,49 @@
 /* Full height chat */
-html body ytd-watch-flexy {
+ytd-watch-flexy {
     --ytd-watch-flexy-sidebar-width: 370px !important;
+}
+
+/* columns */
+#columns {
+    max-width: 100% !important;
+}
+
+#player-container-outer,
+yt-live-chat-app {
+    max-width: 100% !important;
+    min-width: 100% !important;
+}
+
+#primary-inner>*:not(#player) {
+    padding: 0 24px 0;
+}
+
+/* video */
+#movie_player .html5-video-container {
+    height: 100% !important;
+}
+
+#movie_player .ytp-chrome-bottom
+
+/*controls*/
+    {
+    width: calc(100% - 24px) !important;
+    /*fragile!!*/
+    max-width: calc(100% - 24px) !important;
+    /*fragile!!*/
+}
+
+#movie_player video {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    left: 0px !important;
+    background: black;
+}
+
+.ended-mode video {
+    display: none !important;
+    /*avoid conflicting with Iridium*/
 }
 
 html body ytd-watch-flexy:not([theater]):not([fullscreen]) #primary.ytd-watch-flexy,
@@ -12,7 +55,8 @@ html body ytd-watch-flexy[flexy_] #secondary.ytd-watch-flexy {
     min-width: 350px !important;
 }
 
-ytd-watch-flexy[flexy][js-panel-height_] #chat.ytd-watch-flexy:not([collapsed]).ytd-watch-flexy, ytd-watch-flexy[flexy][js-panel-height_] #chat-container.ytd-watch-flexy:not([chat-collapsed]).ytd-watch-flexy  {
+ytd-watch-flexy[flexy][js-panel-height_] #chat.ytd-watch-flexy:not([collapsed]).ytd-watch-flexy,
+ytd-watch-flexy[flexy][js-panel-height_] #chat-container.ytd-watch-flexy:not([chat-collapsed]).ytd-watch-flexy {
     min-height: calc(100vh - 55px) !important;
 }
 
@@ -25,8 +69,8 @@ yt-live-chat-message-input-renderer {
 #message.yt-live-chat-text-message-renderer img.emoji {
     height: 28px !important;
     display: inline-block !important;
-    overflow: hidden  !important;
-    max-width: 100%  !important;
+    overflow: hidden !important;
+    max-width: 100% !important;
     min-width: 20px !important;
     width: auto !important;
 }
@@ -55,6 +99,7 @@ yt-live-chat-text-input-field-renderer[alt="🌝"],
     background-size: 22px 28px;
     box-sizing: border-box;
 }
+
 /* Hide welcome message */
 yt-live-chat-viewer-engagement-message-renderer {
     display: none !important;
