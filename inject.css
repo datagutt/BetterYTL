@@ -3,49 +3,6 @@ ytd-watch-flexy {
     --ytd-watch-flexy-sidebar-width: 370px !important;
 }
 
-/* columns */
-#columns {
-    max-width: 100% !important;
-}
-
-#player-container-outer,
-yt-live-chat-app {
-    max-width: 100% !important;
-    min-width: 100% !important;
-}
-
-#primary-inner>*:not(#player) {
-    padding: 0 24px 0;
-}
-
-/* video */
-#movie_player .html5-video-container {
-    height: 100% !important;
-}
-
-#movie_player .ytp-chrome-bottom
-
-/*controls*/
-    {
-    width: calc(100% - 24px) !important;
-    /*fragile!!*/
-    max-width: calc(100% - 24px) !important;
-    /*fragile!!*/
-}
-
-#movie_player video {
-    max-width: 100% !important;
-    width: 100% !important;
-    height: 100% !important;
-    left: 0px !important;
-    background: black;
-}
-
-.ended-mode video {
-    display: none !important;
-    /*avoid conflicting with Iridium*/
-}
-
 html body ytd-watch-flexy:not([theater]):not([fullscreen]) #primary.ytd-watch-flexy,
 html body ytd-watch-flexy:not([theater]):not([fullscreen]) #secondary.ytd-watch-flexy {
     padding-top: 0 !important;
