@@ -73,7 +73,7 @@ yt-live-chat-viewer-engagement-message-renderer {
 
 .popup {
     background-color: #121212;
-    background-color: var(--yt-app-background);
+    background-color: var(--yt-spec-brand-background-primary);
     color: white;
     color: var(--yt-live-chat-primary-text-color);
 
