@@ -215,7 +215,7 @@ export class Message {
     }
 
 }
-let chatType = 'Top chat';
+let chatType = '';
 
 export default class ChatModule {
     messages = new Map();

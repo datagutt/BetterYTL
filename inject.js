@@ -22,7 +22,7 @@ class BetterYTL {
 					resolve();
 					return;
 				}
-				interval = setInterval(() => loaded(context) && resolve(), 25);
+				interval = setInterval(() => loaded(context) && resolve(), 100);
 			})
 		]);
 		console.log(`waited for ${type} load: ${Date.now() - startTime}ms`);
