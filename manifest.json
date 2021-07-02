@@ -36,8 +36,6 @@
   ],
 
 	"permissions": [
-		"tabs",
-		"webNavigation",
 		"storage",
 
 		"*://www.youtube.com/live_chat*",
