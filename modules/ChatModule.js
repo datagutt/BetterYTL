@@ -169,7 +169,7 @@ export class Message {
         wordsArray.forEach((word, i) => {
             var emote = emotes[word];
             if (emote !== undefined) {
-                var imgHtml = `<img class='ytl-emote emoji yt-formatted-string style-scope yt-live-chat-text-message-renderer' src='${emote.url}' title='${word}' alt='${word}' data-emoji-id='${word}' shared-tooltip-text='${word}' /> `;
+                var imgHtml = `<img class='ytl-emote emoji yt-formatted-string style-scope yt-live-chat-text-message-renderer' src='${emote.url}' title='${word}' alt='${word}' shared-tooltip-text='${word}' /> `;
                 innerHtml = innerHtml.replace(' ' + word + ' ', ' ' + imgHtml + ' ');
             }
         });
@@ -195,6 +195,7 @@ export class Message {
             });
 
             if (emoteRemoved && document.body.contains(this.node)) {
+                console.log(this.node.$.message.innerHTML, this.parsedText);
                 this.node.$.message.innerHTML = this.parsedText;
             }
         });
